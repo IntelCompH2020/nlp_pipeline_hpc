@@ -21,11 +21,4 @@ Please refer to deliverable D3.1 for more information.
 Collection of parquet files. The user must specify the columns to be proccessed by command argument.
 
 ## Output Data
-Collection of parquet files. The user must specify an output directory that does not exist.
-
-## Supported Languages
-- English
-- Spanish
-- Greek
-
-The final version will also support German and French.
+Collection of parquet files. The user must specify an output directory that will be created to store the generated files.
