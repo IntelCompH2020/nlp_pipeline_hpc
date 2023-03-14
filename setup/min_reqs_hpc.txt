@@ -1,0 +1,7 @@
+numpy
+pandas
+textacy
+fasttext
+spacy
+spacy_ke
+spacy-universal-sentence-encoder

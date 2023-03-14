@@ -1,0 +1,1 @@
+[@ /gpfs/projects/bsc88/projects/intelcomp/T3.1_NLP_in_HPC/official_github/NLP_pipeline/hpc @] bash run.sh /gpfs/projects/bsc88/Intelcomp-SemanticParquet//prova_data/part-01960-13434629-9129-4b93-9f8a-f4b75b6b8d2a-c000.snappy.parquet

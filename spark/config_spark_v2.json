@@ -1,0 +1,36 @@
+{   
+    "lang_pipe": "lang_detection/ld_wiki_tatoeba_cnn_21_xx_2.7.0_2.4_1607177877570",
+    "jars": {
+        "cpu":   "./jars/spark-nlp-cpu-spark24-assembly-3.3.4.jar",
+        "gpu":   "./jars/spark-nlp-gpu-spark24-assembly-3.3.4.jar"
+    },
+    "langs": {
+        "en": {
+            "lang_name":        "English", 
+            "embed_model_type": "RoBertaEmbeddings", 
+            "embeddings":       "embeddings/hf_models/en_roberta_sparknlp", 
+            "ner_model_type":   "NerDLModel", 
+            "ner":              "ner/NER_RoBERTa_20200221_plus", 
+            "lemmatizer":       "lemmatizer/lemma_antbnc_en_2.0.2_2.4_1556480454569", 
+            "stopwords":        "nltk_data/corpus/stopwords/en"
+        },
+        "es": {
+            "lang_name":        "Spanish", 
+			"embed_model_type": "RoBertaEmbeddings", 
+            "embeddings":       "embeddings/hf_models/es_roberta_sparknlp", 
+            "ner_model_type":   "NerDLModel", 
+            "ner":              "ner/NER_RoBERTa_20200221_es_plus",
+            "lemmatizer":       "lemmatizer/lemma_es_2.4.0_2.4_1581890818386", 
+            "stopwords":        "nltk_data/corpus/stopwords/es"
+        },
+        "el": {
+            "lang_name":        "Greek"  , 
+            "embed_model_type": "BertEmbeddings", 
+            "embeddings":       "embeddings/hf_models/el_bert_sparknlp", 
+            "ner_model_type":   "XlmRoBertaForTokenClassification", 
+            "ner":              "ner/hf_models/tf-xlm-r-ner-40-lang_spark_nlp", 
+            "lemmatizer":       "lemmatizer/lemma_el_2.5.0_2.4_1588686951720", 
+            "stopwords":        "nltk_data/corpus/stopwords/el"
+        }
+    }
+}

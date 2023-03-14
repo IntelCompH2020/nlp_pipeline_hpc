@@ -1,0 +1,13 @@
+*.swp
+**/__pycache__
+.idea/
+hpc/tmp/
+logs
+hpc/translation_models/*
+hpc/venv/*
+hpc/output/*
+hpc/logs/*
+spark/ner/hf_models/*
+spark/jars/*
+hpc/lang_detection/lid.176.bin
+toy_data/*
