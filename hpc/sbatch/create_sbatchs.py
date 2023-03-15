@@ -5,16 +5,13 @@ import pathlib
 from glob import glob
 import argparse
 
-
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--dir_path", type=str, required=True)
     parser.add_argument("--num_gpus", type=int, required=False, default=32)
     parser.add_argument("--dir_sbatchs", type=str, required=False, default=None)
     parser.add_argument("--run_path", type=str, required=False, default="/gpfs/projects/bsc88/projects/intelcomp/T3.1_NLP_in_HPC/official_github/NLP_pipeline/hpc/")
-
     return parser.parse_args()
-
 
 if __name__ == "__main__":
     # Parse arguments
@@ -24,10 +21,9 @@ if __name__ == "__main__":
 
     #create sbatch_folder
     if batch_args.dir_sbatchs is None:
-        batch_args.dir_sbatchs = os.path.join(os.path.dirname(os.path.realpath(__file__)), os.path.basename(batch_args.dir_path))
+        batch_args.dir_sbatchs = os.path.join(os.path.dirname(os.path.realpath(__file__)), "tasks",os.path.basename(batch_args.dir_path))
         pathlib.Path(batch_args.dir_sbatchs).mkdir(parents=True, exist_ok=True)
         pathlib.Path(os.path.join(batch_args.dir_sbatchs, "logs")).mkdir(parents=True, exist_ok=True)
-        
 
     parquets_per_gpu = num_parquets / batch_args.num_gpus
     num_parquets_per_job = 1 # if there are more jobs than parquets, else calculate how many num parquets per job
@@ -48,12 +44,3 @@ if __name__ == "__main__":
             for parquet_file in parquet_files[i*num_parquets_per_job: (i+1)*num_parquets_per_job]:
                 run_path = os.path.join(batch_args.run_path, 'run.sh')
                 f.write(f"bash {run_path} \"{parquet_file}\"\n")
-
-
-
-
-
-
-
-
-    
