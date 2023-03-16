@@ -1,0 +1,15 @@
+#!/bin/bash
+#SBATCH --chdir {CHDIR}
+#SBATCH --job-name=greasy
+#SBATCH --output={OUTFILENAME}-%j.out
+#SBATCH --error={OUTFILENAME}-%j.err
+#SBATCH --nnodes={NNODES}
+#SBATCH --ntasks={NTASKS}
+#SBATCH --cpus-per-task={CPUSXTASK}
+#SBATCH --time=2-0:00:00
+
+module load impi intel greasy
+
+export I_MPI_PMI_VALUE_LENGTH_MAX=512
+
+greasy {TASKS_FILE}
