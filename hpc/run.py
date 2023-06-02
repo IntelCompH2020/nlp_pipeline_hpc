@@ -96,6 +96,10 @@ class PipelineArguments:
         default="lang_detection/lid.176.bin", 
         metadata={"help": "Name of the language identification model."}
     )
+    embeddings_model_path: str = field(
+        default="embeddings/all-minilm-l6-v2",
+        metadata ={"help": "Path to the embeddings model."}
+    )
     ngrams: List[int] = field(
         default=None,
         metadata={"help": "List of integers indicating the N-grams. For instance [2, 3] will produce bigrams and trigrams."}
@@ -125,7 +129,7 @@ class PipelineArguments:
         metadata={"help": "Remove ngrams that occur in doclike fewer than min_freq times."}
     )
     device: int = field(
-        default=-1,
+        default=None,
         metadata={"help": "Device to use for the transformers models. None will default to gpu if available, -1 means only cpu."}
     )
     debug: bool = field(
@@ -248,12 +252,12 @@ def get_ngrams(doc, n_value=3, filter_stops=False, filter_punct=True, filter_num
         print(e, file=sys.stderr)
     return ngrams
 
-def get_avg_word_embeddings(doc):
+def get_avg_word_embeddings(doc, model):
     """ Extract spacy vector """
     embeddings = None
     try:
         if doc is not None:
-            embeddings = doc.vector
+            embeddings = model.encode(doc)
     except Exception as e:
         print(e, file=sys.stderr)
     return embeddings
@@ -352,8 +356,8 @@ def main():
         disabled_features = list(filter(lambda e: not e in ['attribute_ruler', 'tok2vec', 'tagger'], disabled_features))
     if pipe_args.do_lemmas:
         disabled_features = list(filter(lambda e: not e in ['attribute_ruler', 'tok2vec', 'tagger', 'lemmatizer'], disabled_features))
-    if pipe_args.do_embeddings:
-        disabled_features = list(filter(lambda e: not e in ['tok2vec'], disabled_features))
+#     if pipe_args.do_embeddings:
+#         disabled_features = list(filter(lambda e: not e in ['tok2vec'], disabled_features))
     print("Loading Spacy model")
     nlp = spacy.load("en_core_web_sm", disable=disabled_features)
     nlp.tokenizer = custom_tokenizer(nlp)
@@ -385,6 +389,14 @@ def main():
             keywords_model =KeyBERT(pipe_args.keywords_model_path)
         except Exception as e:
             raise Exception("--keywords_model_path has to point to a valid keyword extraction model.")
+
+    # Load SentenceTransformer for embeddings
+    if pipe_args.do_embeddings:
+        print("Loading embeddings model")
+        try:
+            embeddings_model = SentenceTransformer(pipe_args.embeddings_model_path)
+        except Exception as e:
+            raise Exception("--embeddings_model_path has to point to a valid embeddings model.")
                 
     # Read parquet file
     print("Reading parquet file")
@@ -431,7 +443,7 @@ def main():
                     )
         if pipe_args.do_embeddings:
             print("\tExtracting embeddings")
-            df_out[column_name + "_embeddings"] = df_out[column_name + "_doc"].progress_apply(get_avg_word_embeddings)
+            df_out[column_name + "_embeddings"] = df_out[column_name + "_en-text"].progress_apply(lambda text: get_avg_word_embeddings(text, embeddings_model))
         if pipe_args.do_keywords:
             print("\tExtracting keywords")
             df_out[column_name + "_keywords"] = df_out[column_name + "_en-text"].progress_apply(lambda text: get_keywords(text, keywords_model))
