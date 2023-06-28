@@ -2,7 +2,9 @@ import os
 import random
 
 def read_sentences(filename):
-    """ read conll format into sentences (separated by one read line)"""
+    """
+    Read conll format into sentences (separated by one read line).
+    """
     lines = None 
     with open(filename) as f:
         lines = f.readlines()
@@ -22,9 +24,10 @@ def read_sentences(filename):
 
 
 def apply_to_sentences(sentences, function=lambda x: x.lower(), percentage=1.0):
-    """ Given a list of sentences, the given function will be applied 
-        to each word of some sentences, the sentences will be randomly 
-        selected with a given probability (float between 0 and 1) 
+    """
+    Given a list of sentences, the given function will be applied 
+    to each word of some sentences, the sentences will be randomly 
+    selected with a given probability (float between 0 and 1).
     """
     modified_sentences = []
     for sentence in sentences:
@@ -43,8 +46,9 @@ def apply_to_sentences(sentences, function=lambda x: x.lower(), percentage=1.0):
 
 
 def write_sentences(sentences, filename):
-    """ Given a list of sentences (lists of pairs: text, label) 
-        write them in filename in conll format 
+    """
+    Given a list of sentences (lists of text-label pairs), 
+    write them in filename in conll format.
     """
     with open(filename, 'w') as f:
         for sentence in sentences:
@@ -61,7 +65,3 @@ if __name__ == "__main__":
         upper_sentences = apply_to_sentences(sentences, function=lambda x: x.upper(), percentage=1.0)
         joined_sentences = sentences + lower_sentences + upper_sentences
         write_sentences(joined_sentences, 'joined_' + dataset_split)
-
-
-
-
