@@ -36,7 +36,7 @@ class SparkArguments:
         metadata={"help": "Maximum allowable size of Kryo serialization buffer, in MiB unless otherwise specified. This must be larger than any object you attempt to serialize and must be less than 2048m. Increase this if you get a 'buffer limit exceeded' exception inside Kryo."},
     )
     config_file: str = field(
-        default="config_spark_v2.json",
+        default="config_spark.json",
         metadata={"help": "Path to Spark's configuration file and all components of the pipeline."},
     )
     cache_folder: str = field(
