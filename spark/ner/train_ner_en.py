@@ -1,15 +1,12 @@
 from pyspark.sql import SparkSession
 from pyspark.ml import Pipeline
+import sparknlp
 from sparknlp.annotator import *
 from sparknlp.common import *
 from sparknlp.base import *
-import sparknlp
-
-
 from sparknlp.training import CoNLL
 
 # spark = sparknlp.start()
-# BASE_PATH = '/home/joanllop/Documents/BSC/dt01/gpfs/projects/bsc88/projects/intelcomp/T3.1_NLP_in_HPC/sparknlp/'
 BASE_PATH = '/gpfs/projects/bsc88/projects/intelcomp/T3.1_NLP_in_HPC/sparknlp/'
 PATH_TO_JAR_v2_CPU = BASE_PATH + 'jars/spark-nlp-cpu-spark24-assembly-3.3.4.jar'
 PATH_TO_JAR_v2_GPU = BASE_PATH + 'jars/spark-nlp-gpu-spark24-assembly-3.3.4.jar'
@@ -41,7 +38,7 @@ print("Apache Spark version: ", spark.version)
 training_data = CoNLL().readDataset(spark, './joined_eng.train')
 training_data.show()
 
-# BERT embeddings
+# RoBERTa embeddings
 RoBERTa = RoBertaEmbeddings.load(BASE_PATH + 'embeddings/hf_models/en_roberta_sparknlp')\
     .setInputCols(["sentence",'token'])\
     .setOutputCol("RoBERTa")\
@@ -65,12 +62,12 @@ test_data = CoNLL().readDataset(spark, './eng.testa')
 test_data = RoBERTa.transform(test_data)
 test_data.show()
 test_data.write.parquet("test_withEmbeds.parquet")
-# 
-# # Create a pipeline with these two annotators
+
+# Create a pipeline with these two annotators
 ner_pipeline = Pipeline(stages = [RoBERTa, nerTagger])
-# 
-# # Train
+
+# Train
 ner_model = ner_pipeline.fit(training_data)
-# 
-# # Save model
+
+# Save model
 ner_model.stages[1].write().save('NER_RoBERTa_20200221_plus')
