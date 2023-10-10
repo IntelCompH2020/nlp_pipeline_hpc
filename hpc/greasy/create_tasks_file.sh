@@ -18,5 +18,6 @@ TASKS_FILE=$WORKING_DIR/greasy/tasks/tasks_file_$DATASET_NAME.txt
 LIST_PARQUETS=($(ls $DATA_DIR/*.parquet))
 for path in ${LIST_PARQUETS[@]}
 do
-	echo "[@ $WORKING_DIR @] bash run.sh $path" >> $TASKS_FILE
+	# echo "[@ $WORKING_DIR @] bash run.sh $path" >> $TASKS_FILE
+	echo "$WORKING_DIR/run.sh $path" >> $TASKS_FILE
 done
