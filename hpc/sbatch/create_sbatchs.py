@@ -36,9 +36,10 @@ if __name__ == "__main__":
             f.write("#!/bin/bash\n")
             f.write("#SBATCH -D .\n")
             f.write(f"#SBATCH --job-name={batch_args.dir_sbatchs}/sbatch_execution_{i}\n")
-            f.write(f"#SBATCH --error={batch_args.dir_sbatchs}/logs/sbatch_execution_$i.err\n")
-            f.write(f"#SBATCH --output={batch_args.dir_sbatchs}/logs/sbatch_execution_$i.out\n")
+            f.write(f"#SBATCH --error={batch_args.dir_sbatchs}/logs/sbatch_execution_{i}.err\n")
+            f.write(f"#SBATCH --output={batch_args.dir_sbatchs}/logs/sbatch_execution_{i}.out\n")
             f.write("#SBATCH --gres=gpu:1\n")
+            f.write("#SBATCH -c64\n")
             f.write("#SBATCH --time=2-0:00:00\n\n")
 
             for parquet_file in parquet_files[i*num_parquets_per_job: (i+1)*num_parquets_per_job]:
