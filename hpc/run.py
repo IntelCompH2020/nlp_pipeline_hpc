@@ -17,6 +17,7 @@ from dataclasses import dataclass, field
 from spacy.util import compile_infix_regex
 from spacy.tokenizer import Tokenizer
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, pipeline
+from sentence_transformers import SentenceTransformer
 # import spacy_universal_sentence_encoder.util as encoder_utils
 import textacy.extract.basics as textacy
 from spacy.lang.char_classes import (
@@ -299,6 +300,7 @@ def get_language(text, lang_id_model):
     lang = None
     try:
         if text is not None:
+            text = text.replace("\n","")
             lang = lang_id_model.predict(text, k=1)[0][0][-2:]
     except Exception as e:
         print(e, file=sys.stderr)
