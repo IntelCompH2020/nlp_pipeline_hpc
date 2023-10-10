@@ -1,13 +1,16 @@
 *.swp
 **/__pycache__
 .idea/
+reset_files/
 hpc/tmp/
 logs
+hpc/logs/*
 hpc/translation_models/*
 hpc/venv/*
 hpc/output/*
-hpc/logs/*
+hpc/greasy/tasks/*
 spark/ner/hf_models/*
 spark/jars/*
 hpc/lang_detection/lid.176.bin
+hpc/sbatch/tasks/
 toy_data/*
